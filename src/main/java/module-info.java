@@ -4,6 +4,10 @@ module com.example.monsterhuntertalismanmanager {
     requires java.sql;
 
 
-    opens com.example.monsterhuntertalismanmanager to javafx.fxml;
-    exports com.example.monsterhuntertalismanmanager;
+    opens com.monsterhunter.main to javafx.fxml;
+    exports com.monsterhunter.main;
+    exports com.monsterhunter;
+    opens com.monsterhunter to javafx.fxml;
+    opens com.monsterhunter.model to javafx.fxml;
+    exports com.monsterhunter.model;
 }
