@@ -10,4 +10,6 @@ module com.example.monsterhuntertalismanmanager {
     opens com.monsterhunter to javafx.fxml;
     opens com.monsterhunter.model to javafx.fxml;
     exports com.monsterhunter.model;
+    exports com.monsterhunter.databaseCrud;
+    opens com.monsterhunter.databaseCrud to javafx.fxml;
 }

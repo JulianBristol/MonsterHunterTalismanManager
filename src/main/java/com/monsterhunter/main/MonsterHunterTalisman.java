@@ -1,6 +1,7 @@
 package com.monsterhunter.main;
 
-        import com.monsterhunter.DatabaseConnection;
+        import com.monsterhunter.databaseCrud.manageCharacters;
+        import com.monsterhunter.model.MHCharacter;
         /*import javafx.application.Application;
         import javafx.fxml.FXMLLoader;
         import javafx.scene.Scene;
@@ -20,8 +21,9 @@ public class MonsterHunterTalisman /*extends Application */{
     }*/
 
     public static void main(String[] args) {
-        System.out.println(DatabaseConnection.database());
         /*launch();*/
+
+        manageCharacters dbCrud = new manageCharacters();
 
         //Command Line Interface
         try(Scanner input = new Scanner(System.in)){
@@ -40,9 +42,33 @@ public class MonsterHunterTalisman /*extends Application */{
                     int selection = Integer.parseInt(input.nextLine());
 
                     switch (selection) {
-                        case 1 -> System.out.println("you selected 1");
+
+                        case 1 -> {
+                            System.out.println("Enter the character name");
+                            String characterName = input.nextLine();
+                            System.out.println("Make this character your main character?\nEnter 1 for yes and 2 for no");
+                            int userResponse = Integer.parseInt(input.nextLine());
+                            switch (userResponse){
+                                case 1 -> userResponse = 1;
+                                case 2 -> userResponse = 0;
+                                default -> {
+                                    break;
+                                }
+                            }
+                            MHCharacter newMHCharacter = new MHCharacter(characterName, userResponse);
+                            dbCrud.insertCharacter(newMHCharacter);
+                        }
+
                         case 2 -> System.out.println("you selected 2");
-                        case 3 -> System.out.println("you selected 3");
+
+                        case 3 -> {
+                            System.out.println("Enter the characterId");
+                            int charSelection = Integer.parseInt(input.nextLine());
+                            MHCharacter character = dbCrud.getCharacter(charSelection);
+                            System.out.println("Character information:");
+                            System.out.println(character.toString());
+                        }
+
                         case 4 -> System.out.println("you selected 4");
                         case 5 -> System.out.println("you selected 5");
                         case 6 -> {
@@ -51,8 +77,10 @@ public class MonsterHunterTalisman /*extends Application */{
                         }
                         default -> System.out.println("Invalid selection\nPlease try again");
                     }
-                }catch(NumberFormatException numE){
+                } catch(NumberFormatException numE){
                     System.out.println("Invalid input entered\nPlease try again");
+                } catch (NullPointerException nullPointer){
+                    System.out.println("The selected character does not exist within the database");
                 }
             }
         }
